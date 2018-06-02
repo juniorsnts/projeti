@@ -10,6 +10,14 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { DadosSensorProvider } from '../providers/dados-sensor/dados-sensor';
+import { SocketIoConfig, SocketIoModule } from 'ng-socket-io';
+import { HttpClientModule } from '@angular/common/http';
+
+const config: SocketIoConfig = { 
+  url: 'http://localhost:3000',
+  options: {}
+}; 
 
 @NgModule({
   declarations: [
@@ -21,7 +29,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    HttpClientModule,
+    IonicModule.forRoot(MyApp),
+    SocketIoModule.forRoot(config)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -34,7 +44,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DadosSensorProvider
   ]
 })
 export class AppModule {}
