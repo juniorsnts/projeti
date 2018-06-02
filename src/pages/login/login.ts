@@ -6,6 +6,7 @@ import SHA_256 from 'SHA256';
 import { HomePage } from '../home/home';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
+import { TabsPage } from '../tabs/tabs';
 @IonicPage({
   name: 'login'
 })
@@ -53,7 +54,7 @@ export class LoginPage {
            position: 'bottom'
          });
          toast.present();
-         this.navCtrl.setRoot(HomePage);
+         this.navCtrl.setRoot(TabsPage);
        } else if(resp == 'noExiste'){
          // console.log('Nome de Usuario ou senha incorreta');
          let alert = this.alertCtrl.create({
