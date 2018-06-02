@@ -13,6 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DadosSensorProvider } from '../providers/dados-sensor/dados-sensor';
 import { SocketIoConfig, SocketIoModule } from 'ng-socket-io';
 import { HttpClientModule } from '@angular/common/http';
+import { AutenticacaoProvider } from '../providers/autenticacao/autenticacao';
 
 const config: SocketIoConfig = { 
   url: 'http://localhost:3000',
@@ -45,7 +46,8 @@ const config: SocketIoConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DadosSensorProvider
+    DadosSensorProvider,
+    AutenticacaoProvider
   ]
 })
 export class AppModule {}

@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title text-center>login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+  
+<ion-content padding>
+    <h1 text-center><ion-icon name="person" class="auth-icon" text-center></ion-icon></h1>
+    <form [formGroup]="formLogin" (submit)="validarLogin()" novalidate>
+    <ion-item>
+      <ion-icon name="at" item-left></ion-icon>
+      <ion-input [(ngModel)]="nomeUsuario" formControlName="nomeUsuario" type="text" placeholder="Nome de usuario"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="lock" item-left></ion-icon>
+      <ion-input [(ngModel)]="senha" formControlName="senha" type="password" placeholder="Senha"></ion-input>
+    </ion-item>
+    <br>
+    <button ion-button block type="submit" [disabled]="formLogin.invalid">Entrar</button>
+    </form>
+    <button ion-button block clear (click)="cadastroPage()">Quero me cadastrar</button>
+</ion-content>
