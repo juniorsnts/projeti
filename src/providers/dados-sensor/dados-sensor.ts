@@ -11,25 +11,49 @@ export class DadosSensorProvider {
 
   }
 
+  connect(){
+    return new Promise((resolve, reject)=>{
+      if(this.socket.connect()){
+        resolve("conectado");
+      }else{
+        console.log("erro no connect");
+        reject("erro na conexão");
+      }
+    });
+  }
+
+  disconnect(){
+    return new Promise((resolve, reject)=>{
+      if(this.socket.disconnect()){
+        resolve("desconectado");
+      }else{
+        console.log("erro no disconnet");
+        resolve("erro");
+      }
+    });
+  }
+
   receberDados(data){ 
-    const serverURL = "http://localhost:3000";
+    const serverURL = "http://192.168.2.130:3000";
     return new Promise((resolve, reject)=>{
       this.http.get(serverURL+'/receberionic?data='+data+'&atual=false').subscribe((res)=>{
         resolve(res);
       },
     (err)=>{
+      console.log("erro no receberDados");
       reject(err); 
     });
     });  
   }
 
   receberAtual(){
-    const serverURL = "http://localhost:3000";
+    const serverURL = "http://192.168.2.130:3000";
     return new Promise((resolve, reject)=>{
       this.http.get(serverURL+'/receberionic?atual=true').subscribe((res)=>{
         resolve(res);
       }, 
     (err)=>{
+      console.log("erro no receberAtual");
       reject(err);
     });
     });

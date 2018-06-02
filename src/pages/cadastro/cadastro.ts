@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController }
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AutenticacaoProvider } from '../../providers/autenticacao/autenticacao';
 import SHA_256 from 'sha256';
+import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
 
 @IonicPage({
   name: 'cadastro'
@@ -19,6 +20,7 @@ export class CadastroPage {
   senha = "";
  
   constructor(
+    private storageProvider: SecureStorageProvider,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     public autenticacao: AutenticacaoProvider,
@@ -38,7 +40,6 @@ export class CadastroPage {
 
   validarCadastro(){
     let senhaCriptografada = SHA_256(this.senha);
-    console.log(senhaCriptografada);
     this.autenticacao.autenticaCadastro(this.nomeUsuario, senhaCriptografada)
     .then((results)=>{
       if(results == 'sucesso'){ 
@@ -49,12 +50,25 @@ export class CadastroPage {
           position: 'bottom'
         });
         toast.present();
+
+        this.storageProvider.cadastro(this.nomeUsuario, senhaCriptografada);
+
         this.navCtrl.setRoot('login');
+
       }  else if(results == 'existe'){
         //console.log('usuario ja existe');
         let alert = this.alertCtrl.create({
           title: 'Usuário existente',
           subTitle: 'Esse usuário já está cadastrado',
+          buttons: [{
+            text: 'ok'
+          }]
+        });
+        alert.present();
+      }else if(results == 'erroCad'){
+        let alert = this.alertCtrl.create({
+          title: 'Erro de servidor',
+          subTitle: 'Nao foi possivel cadastra no servidor',
           buttons: [{
             text: 'ok'
           }]
@@ -68,6 +82,10 @@ export class CadastroPage {
 
   loginPage(){
     this.navCtrl.push('login');
+  }
+
+  recuperaStorage(){
+    this.storageProvider.recuperar();
   }
 
 }

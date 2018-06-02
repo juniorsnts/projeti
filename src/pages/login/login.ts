@@ -4,9 +4,10 @@ import { AutenticacaoProvider } from '../../providers/autenticacao/autenticacao'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import SHA_256 from 'SHA256';
 import { HomePage } from '../home/home';
-import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
 import { TabsPage } from '../tabs/tabs';
+import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
+import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
 @IonicPage({
   name: 'login'
 })
@@ -22,7 +23,8 @@ export class LoginPage {
   formLogin: FormGroup;
 
   constructor(
-    private socket: Socket,
+    private storageProvider: SecureStorageProvider,
+    private dadosSensor: DadosSensorProvider,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
@@ -34,7 +36,6 @@ export class LoginPage {
         nomeUsuario: ['', Validators.required],
         senha: ['', Validators.required]
       });
-      this.socket.connect();
       
   }
 
@@ -50,11 +51,26 @@ export class LoginPage {
          // console.log('usuario autenticado');
          let toast = this.toastCtrl.create({
            message: 'BEM VINDO',
-           duration: 3000,
+           duration: 2000,
            position: 'bottom'
          });
+         this.storageProvider.cadastro(this.nomeUsuario, senhaCriptografada);
          toast.present();
-         this.navCtrl.setRoot(TabsPage);
+         this.dadosSensor.connect().then(connect =>{
+           if(connect == "conectado"){
+            this.navCtrl.setRoot(TabsPage);
+
+           }else{
+            let alert = this.alertCtrl.create({
+              title: 'Erro de socket',
+              subTitle: 'Não foi possivel conectar ao socket.',
+              buttons: [{
+                text: 'ok'
+              }]
+            });
+           alert.present();
+           }
+         });
        } else if(resp == 'noExiste'){
          // console.log('Nome de Usuario ou senha incorreta');
          let alert = this.alertCtrl.create({
@@ -65,6 +81,15 @@ export class LoginPage {
            }]
          });
         alert.present();
+       } else if(resp == 'erroAuth'){
+         let alert = this.alertCtrl.create({
+           title: 'Erro no servidor',
+           subTitle: 'Nao foi possivel fazer a autenticacao no servidor',
+           buttons: [{
+             text: 'ok'
+           }]
+         });
+         alert.present();
        }
      });
   }

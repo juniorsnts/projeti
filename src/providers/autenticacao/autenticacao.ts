@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AutenticacaoProvider {
 
-  serverURL = "http://localhost:3000";
+  serverURL = "http://192.168.2.130:3000";
 
   constructor(public http: HttpClient) {
     console.log('Hello AutenticacaoProvider Provider');
@@ -22,7 +22,8 @@ export class AutenticacaoProvider {
       .subscribe(res =>{
         resolve(res);
       }, (err)=>{
-        reject(err);
+        console.log("erro na autenticação");
+        resolve('erroAuth');
       });
     });    
   }
@@ -37,9 +38,12 @@ export class AutenticacaoProvider {
       .subscribe(res => {
         resolve(res);
       }, (err)=>{
-        reject(err);
+        console.log("erro no cadastro");
+        resolve("erroCad");
       });
     });  
   }
+
+
 
 }

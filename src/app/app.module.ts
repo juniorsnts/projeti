@@ -14,9 +14,14 @@ import { DadosSensorProvider } from '../providers/dados-sensor/dados-sensor';
 import { SocketIoConfig, SocketIoModule } from 'ng-socket-io';
 import { HttpClientModule } from '@angular/common/http';
 import { AutenticacaoProvider } from '../providers/autenticacao/autenticacao';
+import { SecureStorage } from '@ionic-native/secure-storage';
+import { SecureStorageProvider } from '../providers/secure-storage/secure-storage';
+
+
+
 
 const config: SocketIoConfig = { 
-  url: 'http://localhost:3000',
+  url: 'http://192.168.2.130:3000',
   options: {}
 }; 
 
@@ -44,10 +49,12 @@ const config: SocketIoConfig = {
   ],
   providers: [
     StatusBar,
+    SecureStorage,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DadosSensorProvider,
-    AutenticacaoProvider
+    AutenticacaoProvider,
+    SecureStorageProvider
   ]
 })
 export class AppModule {}
