@@ -34,7 +34,8 @@ export class DadosSensorProvider {
   }
 
   receberDados(data){ 
-    const serverURL = "http://192.168.2.130:3000";
+    //const serverURL = "http://186.216.171.128:3006";
+    const serverURL = "http://192.168.0.100:3000";
     return new Promise((resolve, reject)=>{
       this.http.get(serverURL+'/receberionic?data='+data+'&atual=false').subscribe((res)=>{
         resolve(res);
@@ -47,7 +48,8 @@ export class DadosSensorProvider {
   }
 
   receberAtual(){
-    const serverURL = "http://192.168.2.130:3000";
+    // const serverURL = "http://186.216.171.128:3006";
+    const serverURL = "http://192.168.0.100:3000";
     return new Promise((resolve, reject)=>{
       this.http.get(serverURL+'/receberionic?atual=true').subscribe((res)=>{
         resolve(res);

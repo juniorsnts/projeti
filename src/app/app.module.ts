@@ -21,7 +21,7 @@ import { SecureStorageProvider } from '../providers/secure-storage/secure-storag
 
 
 const config: SocketIoConfig = { 
-  url: 'http://192.168.2.130:3000',
+  url: 'http://192.168.0.100:3000',
   options: {}
 }; 
 
