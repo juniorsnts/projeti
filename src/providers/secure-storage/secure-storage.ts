@@ -19,7 +19,7 @@ export class SecureStorageProvider {
       this.secureStorage.create('storageCadastro').then((storage: SecureStorageObject) =>{
         this.myStorage = storage;
       });
-  }
+  } 
 
   cadastro(usuario, senha){   
       this.user = JSON.stringify({user:usuario, senha:senha});

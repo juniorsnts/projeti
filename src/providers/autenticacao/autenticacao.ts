@@ -4,8 +4,6 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AutenticacaoProvider {
 
-  serverURL = "http://projetimeta.duckdns.org:3006";
-
   constructor(public http: HttpClient) {
     console.log('Hello AutenticacaoProvider Provider');
   }
@@ -16,9 +14,9 @@ export class AutenticacaoProvider {
       nome: nome,
       senha: senha
     });
-
+    const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
-      this.http.post(this.serverURL+'/autenticaUsuario', data, {headers: {'Content-Type': 'application/json'}})
+      this.http.post(serverURL+'/autenticaUsuario', data, {headers: {'Content-Type': 'application/json'}})
       .subscribe(res =>{
         resolve(res);
       }, (err)=>{
@@ -33,8 +31,9 @@ export class AutenticacaoProvider {
       nomeUsuario: nomeUsuario,
       senha: senha
     });    
+    const serverURL = "http://projetimeta.duckdns.org:3006";
    return new Promise((resolve, reject)=>{     
-      this.http.post(this.serverURL+'/inserirUsuario', data, {headers: {'Content-Type' : 'application/json'}})
+      this.http.post(serverURL+'/inserirUsuario', data, {headers: {'Content-Type' : 'application/json'}})
       .subscribe(res => {
         resolve(res);
       }, (err)=>{

@@ -2,12 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
-
 @Injectable()
 export class DadosSensorProvider {
 
   constructor(public http: HttpClient,
-              private socket: Socket,) {
+              private socket: Socket) {
 
   }
 
@@ -34,7 +33,6 @@ export class DadosSensorProvider {
   }
 
   receberDados(data){ 
-    //const serverURL = "http://186.216.171.128:3006";
     const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
       this.http.get(serverURL+'/receberionic?data='+data+'&atual=false').subscribe((res)=>{
@@ -48,7 +46,6 @@ export class DadosSensorProvider {
   }
 
   receberAtual(){
-    // const serverURL = "http://186.216.171.128:3006";
     const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
       this.http.get(serverURL+'/receberionic?atual=true').subscribe((res)=>{

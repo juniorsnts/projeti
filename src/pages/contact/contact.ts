@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, App } from 'ionic-angular';
 import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
 import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-contact',
@@ -10,6 +11,7 @@ import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
 export class ContactPage {
 
   constructor(
+    private app: App,
     private dadosSensor: DadosSensorProvider,
     private secureStorage: SecureStorageProvider,
     public navCtrl: NavController) {
@@ -23,6 +25,7 @@ export class ContactPage {
         this.dadosSensor.disconnect().then(resp=>{
           if(resp == "desconectado"){
               this.navCtrl.setRoot('login');
+              this.app.getRootNav().setRoot('login');
           }else{
             console.log("Erro para desconectar");
           }

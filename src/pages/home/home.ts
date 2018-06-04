@@ -20,6 +20,7 @@ export class HomePage {
   dados:any;
   array:any = [];
   tempAtual: any;
+  graficoDisplay = false;
 
   
   constructor(
@@ -41,11 +42,13 @@ export class HomePage {
   }
 
   getChart(context, chartType, data, options?) {
+    
     return new chartJs(context, {
       data,
       options,
       type: chartType
-    })
+    });
+    
   }
 
   getLineChart(horas,valores){
@@ -81,7 +84,7 @@ export class HomePage {
     ]
     }
 
-    return this.getChart(this.lineCanvas.nativeElement, 'line', data)
+    return this.getChart(this.lineCanvas.nativeElement, 'line', data, options);
   }
 
   pesquisaData(){
@@ -89,6 +92,7 @@ export class HomePage {
     this.dadosSensor.receberAtual().then((resp)=>{
       this.dados = resp;
       if(resp == "noexiste"){
+        this.Realtimesensor();
         let alertCtrl = this.alertCtrl.create({
           title: 'Sem valores',
           subTitle: 'Não existe valores para a data '+this.data
@@ -96,11 +100,12 @@ export class HomePage {
         alertCtrl.present();
         
       }else{
+        this.graficoDisplay = true;
         this.array = resp;
-        this.Realtimesensor();
         console.log("array: ", this.array);
         let horas = [];
         let valores = [];
+        this.tempAtual = this.dados[this.dados.length -1].valor;
         for(var i=0;i< this.dados.length; i++){
           valores[i] = this.dados[i].valor;
         }
@@ -109,6 +114,7 @@ export class HomePage {
         }
         console.log(resp);
         this.lineChart = this.getLineChart(horas,valores);
+        this.Realtimesensor();
         console.log("lineChart: ",this.lineChart);
       }
       
@@ -116,9 +122,11 @@ export class HomePage {
   }
 
   Realtimesensor(){
+    
     this.dadosSensor.getValores().subscribe(valores => {
       console.log("valores ",valores);
-      let valor:any;
+      if(this.graficoDisplay == true){
+        let valor:any;
       valor = valores;
       this.tempAtual = valor.valor;
       this.lineChart.data.labels.push(valor.hora);
@@ -128,6 +136,10 @@ export class HomePage {
       this.lineChart.update();
       console.log("array++: ", this.array);
       //alert(JSON.stringify(this.array));
+      }else{
+        this.pesquisaData();
+      }
+      
     });
   }
 
