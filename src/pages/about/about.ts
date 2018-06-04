@@ -65,7 +65,7 @@ export class AboutPage {
     return this.getChart(this.lineCanvas.nativeElement, 'line', data)
   }
 
-  pesquisarData(){
+  pesquisarData(data){
     // this.dadosSensor.receberDados(this.data).then((resp)=>{
     //   this.dados = resp;
     //   let horas = [];
@@ -78,7 +78,7 @@ export class AboutPage {
     //   }
     //   this.getLineChart(horas, valores);
     // });
-    alert(this.data);
+    alert(data);
   }
 
 }

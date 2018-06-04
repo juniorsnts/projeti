@@ -9,7 +9,7 @@
 <ion-content padding>
   <ion-item>
     <ion-label>Pesquise a data</ion-label>
-    <ion-datetime placeholder="Clique aqui" displayFormat="DD-MM-YYYY" min="2018" max="2028" doneText="ok" cancelText="cancelar" (ionChange)="pesquisarData()" [(ngModel)]="data"></ion-datetime>
+    <ion-datetime placeholder="Clique aqui" displayFormat="DD-MM-YYYY" min="2018" max="2028" doneText="ok" cancelText="cancelar" (ionChange)="pesquisarData(data)" [(ngModel)]="data"></ion-datetime>
   </ion-item>
   <ion-card>
     <ion-card-content>

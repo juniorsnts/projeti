@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AutenticacaoProvider {
 
-  // serverURL = "http://186.216.171.128:3006";
-  serverURL = "http://192.168.0.100:3000";
+  serverURL = "http://projetimeta.duckdns.org:3006";
 
   constructor(public http: HttpClient) {
     console.log('Hello AutenticacaoProvider Provider');

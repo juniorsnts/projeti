@@ -16,6 +16,8 @@ import { DadosSensorProvider } from '../providers/dados-sensor/dados-sensor';
 export class MyApp {
   rootPage:any;
 
+  serverURL = "http://projetimeta.duckdns.org:3006";
+
   constructor(
     dadosSensor: DadosSensorProvider,
     alertCtrl: AlertController,
@@ -25,6 +27,7 @@ export class MyApp {
     statusBar: StatusBar, 
     splashScreen: SplashScreen) {
     platform.ready().then(() => {
+
 
       statusBar.styleDefault();
       splashScreen.hide();

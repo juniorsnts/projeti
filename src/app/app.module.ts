@@ -17,11 +17,8 @@ import { AutenticacaoProvider } from '../providers/autenticacao/autenticacao';
 import { SecureStorage } from '@ionic-native/secure-storage';
 import { SecureStorageProvider } from '../providers/secure-storage/secure-storage';
 
-
-
-
 const config: SocketIoConfig = { 
-  url: 'http://192.168.0.100:3000',
+  url: 'http://projetimeta.duckdns.org:3006',
   options: {}
 }; 
 
