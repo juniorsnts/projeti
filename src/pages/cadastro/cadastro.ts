@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AutenticacaoProvider } from '../../providers/autenticacao/autenticacao';
 import SHA_256 from 'sha256';
 import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
+import { TabsPage } from '../tabs/tabs';
 
 @IonicPage({
   name: 'cadastro'
@@ -53,7 +54,7 @@ export class CadastroPage {
 
         this.storageProvider.cadastro(this.nomeUsuario, senhaCriptografada);
 
-        this.navCtrl.setRoot('login');
+        this.navCtrl.setRoot(TabsPage);
 
       }  else if(results == 'existe'){
         //console.log('usuario ja existe');

@@ -21,7 +21,7 @@ export class AutenticacaoProvider {
         resolve(res);
       }, (err)=>{
         console.log("erro na autenticação");
-        resolve('erroAuth');
+        resolve('noAuth');
       });
     });    
   }
