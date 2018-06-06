@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
-import { AutenticacaoProvider } from '../autenticacao/autenticacao';
 
 
 
@@ -12,7 +11,6 @@ export class SecureStorageProvider {
   user;
   
   constructor(
-    private autenticaLogin: AutenticacaoProvider,
     private secureStorage: SecureStorage,
     public http: HttpClient) {
 
@@ -40,16 +38,7 @@ export class SecureStorageProvider {
         this.myStorage.get('usuario').then(
           data => {
             this.user = JSON.parse(data);
-            console.log(this.user);
-            this.autenticaLogin.autenticaLogin(this.user.user, this.user.senha).then(resp =>{
-              if(resp == 'sucesso'){
-                resolve("existe");
-              } else if(resp == 'noExiste'){
-                resolve('noExiste');
-              }else if(resp == 'erroAuth'){
-                resolve('erroAuth');
-              }
-            });                        
+            resolve(this.user);                       
           },
           error => {
             resolve('noExiste')

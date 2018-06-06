@@ -8,6 +8,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
 import { Socket } from 'ng-socket-io';
 import { DadosSensorProvider } from '../providers/dados-sensor/dados-sensor';
+import { AutenticacaoProvider } from '../providers/autenticacao/autenticacao';
 
 
 @Component({
@@ -15,10 +16,12 @@ import { DadosSensorProvider } from '../providers/dados-sensor/dados-sensor';
 })
 export class MyApp {
   rootPage:any;
+  user;
 
   serverURL = "http://projetimeta.duckdns.org:3006";
 
   constructor(
+    autenticacaoProvider: AutenticacaoProvider,
     dadosSensor: DadosSensorProvider,
     alertCtrl: AlertController,
     socket: Socket,
@@ -33,13 +36,12 @@ export class MyApp {
       splashScreen.hide();
 
       socket.disconnect();
-
+      
       secureStorage.recuperar().then(resp =>{
-        if(resp == "noExiste"){
-          console.log("resp ",resp);
-          this.rootPage = 'login';
-        }else if(resp == "existe") {          
-          console.log("resp ",resp);
+        this.user = resp;
+        autenticacaoProvider.autenticaLogin(this.user.user, this.user.senha).then(resp => {
+          if(resp == 'sucesso'){
+            console.log("resp ",resp);
           dadosSensor.connect().then(connect =>{
             if(connect == "conectado"){
              this.rootPage = TabsPage;
@@ -55,11 +57,11 @@ export class MyApp {
             alert.present();
             }
           });
-        }else if(resp == 'Storage nulo'){
-          console.log("resp ",resp);
-          this.rootPage = 'login';
-        }else if(resp == 'erroAuth'){
-          this.rootPage = 'login';
+          } else if (resp == 'noExiste'){
+            console.log("resp ", resp);
+            this.rootPage = 'login';
+          } else if (resp == 'noAuth'){
+            this.rootPage = 'login';
           let alert = alertCtrl.create({
             title: 'Erro de servidor',
             subTitle: 'Nao foi possivel cadastra no servidor',
@@ -67,9 +69,10 @@ export class MyApp {
               text: 'ok'
             }]
           });
-          alert.present();
-        }
-      })      
+          alert.present();            
+          }        
+        });
+      });     
     });
   }
 }

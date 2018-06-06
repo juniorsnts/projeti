@@ -3,6 +3,7 @@ import { NavController, App } from 'ionic-angular';
 import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
 import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
 import { LoginPage } from '../login/login';
+import { SecureStorage } from '@ionic-native/secure-storage';
 
 @Component({
   selector: 'page-contact',
@@ -36,7 +37,12 @@ export class ContactPage {
         console.log("Estorage nulo");
       }
     });
+  }
 
+  updateUsuario(usuario){
+        
+  }
+  updateSenha(){
 
   }
 }

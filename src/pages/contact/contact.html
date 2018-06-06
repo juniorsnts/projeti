@@ -14,10 +14,10 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Alterar nome de usuario</ion-label>
+    <ion-label (click)="updateUsuario()">Alterar nome de usuario</ion-label>
   </ion-item>
   <ion-item>
-    <ion-label>Alterar senha</ion-label>
+    <ion-label (click)="updateSenha()">Alterar senha</ion-label>
   </ion-item>
   <br>
   <button ion-button clear full color="danger" (click)="logout()">Sair do app</button>
