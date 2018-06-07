@@ -26,8 +26,8 @@ export class MyApp {
     alertCtrl: AlertController,
     socket: Socket,
     secureStorage: SecureStorageProvider,
-    platform: Platform, 
-    statusBar: StatusBar, 
+    platform: Platform,
+    statusBar: StatusBar,
     splashScreen: SplashScreen) {
     platform.ready().then(() => {
 
@@ -36,43 +36,37 @@ export class MyApp {
       splashScreen.hide();
 
       socket.disconnect();
-      
-      secureStorage.recuperar().then(resp =>{
-        this.user = resp;
-        autenticacaoProvider.autenticaLogin(this.user.user, this.user.senha).then(resp => {
-          if(resp == 'sucesso'){
-            console.log("resp ",resp);
-          dadosSensor.connect().then(connect =>{
-            if(connect == "conectado"){
-             this.rootPage = TabsPage;
-            }else{
-            this.rootPage = 'login';
-             let alert = alertCtrl.create({
-               title: 'Erro de socket',
-               subTitle: 'Não foi possivel conectar ao socket.',
-               buttons: [{
-                 text: 'ok'
-               }]
-             });
-            alert.present();
+
+      secureStorage.recuperar().then(res =>{
+        if(res == "noExiste"){
+          console.log("res ", res);
+          this.rootPage = 'login';
+        } else if(res == "Storagenulo"){
+          console.log("storage nulo", res);
+          this.rootPage = 'login';
+        } else {
+          this.user = res;
+          autenticacaoProvider.autenticaLogin(this.user.user, this.user.senha)
+          .then(resp =>{
+            if(resp == "sucesso"){
+              console.log("resp ", resp);
+              dadosSensor.connect().then(connect => {
+                if(connect == "conectado"){
+                  this.rootPage = TabsPage;
+                } else {
+                  this.rootPage = 'login';
+                  let alert = alertCtrl.create({
+                    title: "Erro no socket",
+                    subTitle: "Não foi possivel conectar ao socket",
+                    buttons: [{text: 'ok'}]
+                  });
+                  alert.present();
+                }
+              });
             }
           });
-          } else if (resp == 'noExiste'){
-            console.log("resp ", resp);
-            this.rootPage = 'login';
-          } else if (resp == 'noAuth'){
-            this.rootPage = 'login';
-          let alert = alertCtrl.create({
-            title: 'Erro de servidor',
-            subTitle: 'Nao foi possivel cadastra no servidor',
-            buttons: [{
-              text: 'ok'
-            }]
-          });
-          alert.present();            
-          }        
-        });
-      });     
+        }
+      });      
     });
   }
 }

@@ -3,9 +3,8 @@ import { NavController, App, AlertController, ToastController } from 'ionic-angu
 import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
 import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
 import { LoginPage } from '../login/login';
-import { SecureStorage } from '@ionic-native/secure-storage';
 import { UpdateDadosProvider } from '../../providers/update-dados/update-dados';
-import { SHA_256 } from 'sha256';
+import SHA_256 from 'sha256';
 
 @Component({
   selector: 'page-contact',
@@ -50,7 +49,7 @@ export class ContactPage {
 
   updateUsuario(){
     let alert = this.alertCtrl.create({
-      subTitle: 'Mudar nome de usuario de ',
+      subTitle: 'Mudar nome de usuario',
       inputs: [{
         placeholder: 'Digite o novo nome',
         name: 'nomeUsuario'
@@ -96,7 +95,7 @@ export class ContactPage {
     alert.present();              
   }
   updateSenha(){
-    let alert = this.alertCtrl.create({
+    let alert4 = this.alertCtrl.create({
       subTitle: 'Trocar senha de usuario',
       inputs: [{
         placeholder: 'Digite a nova senha',
@@ -111,17 +110,18 @@ export class ContactPage {
     buttons: [{
       text: 'ok',
       handler: data =>{
-        console.log(data.novaSenha);
-        console.log(data.senhaAntiga);      
         let senhaNovaCript = SHA_256(data.novaSenha);
         let senhaAntigaCript = SHA_256(data.senhaAntiga);  
+        console.log(senhaNovaCript);
+        console.log(senhaAntigaCript);      
         this.secureStorage.recuperar().then(resp =>{
           this.dadosStorageSenha = resp;
           if(senhaNovaCript == this.dadosStorageSenha.senha){
             console.log('Essa ja é sua senha atual');
           } else if(senhaNovaCript != this.dadosStorageSenha.senha){
             this.updateProvider.updateSenha(this.dadosStorageSenha.user, senhaAntigaCript, senhaNovaCript)
-            .then(res =>{
+            .then(resp =>{
+              console.log(resp);
               if(resp == 'updateSenha'){
                 this.secureStorage.remover();
                 this.secureStorage.cadastro(this.dadosStorageSenha.user, senhaNovaCript);
@@ -132,17 +132,17 @@ export class ContactPage {
                 });
                 toast.present();
               } else if(resp == 'erroUpdateSenha'){
-                let alert = this.alertCtrl.create({
+                let alert2 = this.alertCtrl.create({
                   subTitle: 'Ocorreu um erro nos dados do updateSenha',
                   buttons: [('ok')]
                 });
-                alert.present();
+                alert2.present();
               } else {
-                let alert = this.alertCtrl.create({
+                let alert3 = this.alertCtrl.create({
                   subTitle: 'Ocorreu um erro inesperado no updateSenha',
                   buttons: [('ok')]
                 });
-                alert.present();
+                alert3.present();
               }          
             });
           }
@@ -152,6 +152,6 @@ export class ContactPage {
       text: 'cancelar'
     }]
     });
-    alert.present();
+    alert4.present();
   }
 }
