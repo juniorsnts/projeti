@@ -31,18 +31,36 @@ export class MyApp {
     splashScreen: SplashScreen) {
     platform.ready().then(() => {
 
+      dadosSensor.getAlertSensor().subscribe(alert =>{
+        if(alert == "alarteon"){
+          let alert = alertCtrl.create({
+            title: "ALERTA!!",
+            subTitle: "Porta aberta!!",
+            buttons: [{text: 'ok'}]
+          });
+          alert.present();
+        }else if(alert == "alarteoff"){
+          let alert = alertCtrl.create({
+            title: "ALERTA!!",
+            subTitle: "A porta foi fechada",
+            buttons: [{text: 'ok'}]
+          });
+          alert.present();
+        }
+      });
+
 
       statusBar.styleDefault();
       splashScreen.hide();
 
-      socket.disconnect();
-
       secureStorage.recuperar().then(res =>{
         if(res == "noExiste"){
           console.log("res ", res);
+          socket.disconnect();
           this.rootPage = 'login';
         } else if(res == "Storagenulo"){
           console.log("storage nulo", res);
+          socket.disconnect();
           this.rootPage = 'login';
         } else {
           this.user = res;

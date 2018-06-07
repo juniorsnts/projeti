@@ -14,6 +14,7 @@ export class ContactPage {
 
   dadosStorage;
   dadosStorageSenha;
+  sensor;
 
   constructor(
     private toast: ToastController,
@@ -24,7 +25,49 @@ export class ContactPage {
     private secureStorage: SecureStorageProvider,
     public navCtrl: NavController) {
 
+      this.dadosSensor.receberStatus().then(resp =>{
+          this.sensor = resp;
+      });
 
+      this.dadosSensor.getStatusSensor().subscribe(resp =>{
+          this.sensor = resp;
+      });
+
+
+  }
+
+  statuSsensor(sensor){
+
+      console.log("Status sensor" + sensor);
+      this.dadosSensor.EnviarStatus(this.sensor).then(resp =>{
+        if(resp == true){
+          let alert = this.alertCtrl.create({
+            subTitle: 'Sensor ativado Com sucesso.',
+            buttons: [{
+              text: 'ok',
+            }]
+          });  
+          alert.present(); 
+        }else if(resp == false){
+          let alert = this.alertCtrl.create({
+            subTitle: 'Sensor desativado Com sucesso.',
+            buttons: [{
+              text: 'ok',
+            }]
+          });  
+          alert.present(); 
+        }else{
+          let alert = this.alertCtrl.create({
+            subTitle: 'Erro na comunicação com o Sensor.',
+            buttons: [{
+              text: 'ok',
+            }]
+          });  
+          alert.present(); 
+        }
+        
+        
+      });
   }
 
 

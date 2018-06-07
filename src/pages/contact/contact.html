@@ -9,8 +9,8 @@
 <ion-content>
   <ion-list>
   <ion-item>
-    <ion-label>Ativar sensor de presenca</ion-label>
-    <ion-toggle [(ngModel)]="sensor"></ion-toggle>
+    <ion-label>Ativar sensor de presenca: {{sensor}}</ion-label>
+    <ion-toggle [(ngModel)]="sensor" (ionChange)="statuSsensor(sensor)"></ion-toggle>
   </ion-item>
 
   <ion-item>
