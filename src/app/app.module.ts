@@ -17,6 +17,7 @@ import { AutenticacaoProvider } from '../providers/autenticacao/autenticacao';
 import { SecureStorage } from '@ionic-native/secure-storage';
 import { SecureStorageProvider } from '../providers/secure-storage/secure-storage';
 import { UpdateDadosProvider } from '../providers/update-dados/update-dados';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 const config: SocketIoConfig = { 
   url: 'http://projetimeta.duckdns.org:3006',
@@ -47,6 +48,7 @@ const config: SocketIoConfig = {
   ],
   providers: [
     StatusBar,
+    LocalNotifications,
     SecureStorage,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

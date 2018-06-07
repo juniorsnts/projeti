@@ -5,6 +5,7 @@ import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
 import { LoginPage } from '../login/login';
 import { SecureStorage } from '@ionic-native/secure-storage';
 import { UpdateDadosProvider } from '../../providers/update-dados/update-dados';
+import { SHA_256 } from 'sha256';
 
 @Component({
   selector: 'page-contact',
@@ -14,7 +15,6 @@ export class ContactPage {
 
   dadosStorage;
   dadosStorageSenha;
-  dados = [];
 
   constructor(
     private toast: ToastController,
@@ -25,9 +25,6 @@ export class ContactPage {
     private secureStorage: SecureStorageProvider,
     public navCtrl: NavController) {
 
-      this.dados = [{
-        user: 'teste'
-      }];
 
   }
 
@@ -53,7 +50,7 @@ export class ContactPage {
 
   updateUsuario(){
     let alert = this.alertCtrl.create({
-      subTitle: 'Mudar nome de usuario',
+      subTitle: 'Mudar nome de usuario de ',
       inputs: [{
         placeholder: 'Digite o novo nome',
         name: 'nomeUsuario'
@@ -67,14 +64,24 @@ export class ContactPage {
             this.updateProvider.updateUsuario(this.dadosStorage.user, data.nomeUsuario, this.dadosStorage.senha)
             .then(res => {
               if(res == 'updateUsuario'){
+                this.secureStorage.remover();
+                this.secureStorage.cadastro(data.nomeUsuario, this.dadosStorage.senha);
+                console.log(data.nomeUsuario, this.dadosStorage.senha);
                 let toast = this.toast.create({
                   message: 'Usuario atualizado com sucesso',
                   duration: 2000,
                   position: 'bottom'
                 });
-              } else {
+                toast.present();
+              } else if(resp == 'erroUpdate') {
                 let alert = this.alertCtrl.create({
                   message: 'erro nos dados',
+                  buttons: [{text: 'ok'}]
+                });
+                alert.present();
+              } else {
+                let alert = this.alertCtrl.create({
+                  message: 'erro inesperado',
                   buttons: [{text: 'ok'}]
                 });
                 alert.present();
@@ -105,17 +112,40 @@ export class ContactPage {
       text: 'ok',
       handler: data =>{
         console.log(data.novaSenha);
-        console.log(data.senhaAntiga);
+        console.log(data.senhaAntiga);      
+        let senhaNovaCript = SHA_256(data.novaSenha);
+        let senhaAntigaCript = SHA_256(data.senhaAntiga);  
         this.secureStorage.recuperar().then(resp =>{
           this.dadosStorageSenha = resp;
-          this.updateProvider.updateSenha(this.dadosStorage.user, data.senhaAntiga, data.novaSenha)
-          .then(res =>{
-            if(res == 'updateSenha'){
-              console.log('senha atualizada');
-            } else if(res == 'erroUpdateSenha'){
-              console.log('senha incorreta');
-            }
-          });          
+          if(senhaNovaCript == this.dadosStorageSenha.senha){
+            console.log('Essa ja é sua senha atual');
+          } else if(senhaNovaCript != this.dadosStorageSenha.senha){
+            this.updateProvider.updateSenha(this.dadosStorageSenha.user, senhaAntigaCript, senhaNovaCript)
+            .then(res =>{
+              if(resp == 'updateSenha'){
+                this.secureStorage.remover();
+                this.secureStorage.cadastro(this.dadosStorageSenha.user, senhaNovaCript);
+                let toast = this.toast.create({
+                  message: 'Senha atualizada com sucesso',
+                  duration: 2000,
+                  position: 'bottom'
+                });
+                toast.present();
+              } else if(resp == 'erroUpdateSenha'){
+                let alert = this.alertCtrl.create({
+                  subTitle: 'Ocorreu um erro nos dados do updateSenha',
+                  buttons: [('ok')]
+                });
+                alert.present();
+              } else {
+                let alert = this.alertCtrl.create({
+                  subTitle: 'Ocorreu um erro inesperado no updateSenha',
+                  buttons: [('ok')]
+                });
+                alert.present();
+              }          
+            });
+          }
         });
       }
     },{
