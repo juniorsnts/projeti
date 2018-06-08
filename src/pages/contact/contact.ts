@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, style } from '@angular/core';
 import { NavController, App, AlertController, ToastController } from 'ionic-angular';
 import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
 import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
@@ -16,9 +16,10 @@ export class ContactPage {
   dadosStorage;
   dadosStorageSenha;
   sensor;
-  estado;
+  statusPorta;
 
   constructor(
+
     private toastCtrl: ToastController,
     private background: BackgroundMode,
     private toast: ToastController,
@@ -29,8 +30,6 @@ export class ContactPage {
     private secureStorage: SecureStorageProvider,
     public navCtrl: NavController) {
 
-      this.estado = "aberta";
-
       this.dadosSensor.receberStatus().then(resp =>{
           this.sensor = resp;
       });
@@ -39,6 +38,21 @@ export class ContactPage {
           this.sensor = resp;
       });
 
+      this.dadosSensor.receberAlerta().then((resp)=>{
+        if(resp == true){
+          this.statusPorta = true;
+        } else {
+          this.statusPorta = false;
+        }
+      });
+
+      dadosSensor.getAlertSensor().subscribe(alert =>{
+        if(alert == "alarteon"){
+          this.statusPorta = true;                        
+        }else if(alert == "alarteoff"){
+          this.statusPorta = false;
+        }
+      });
 
   }
 

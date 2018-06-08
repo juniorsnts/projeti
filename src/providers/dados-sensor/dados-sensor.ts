@@ -98,6 +98,18 @@ export class DadosSensorProvider {
     });  
   }
 
+  receberAlerta(){ 
+    return new Promise((resolve, reject)=>{
+      this.http.get(this.serverURL+'/receberalerta').subscribe((res)=>{
+        resolve(res);
+      },
+    (err)=>{
+      console.log("erro no receberStatus");
+      resolve(err); 
+    });
+    });  
+  }
+
   EnviarStatus(status){ 
     return new Promise((resolve, reject)=>{
       this.http.get(this.serverURL+'/statusalarme?status='+ status).subscribe((res)=>{
