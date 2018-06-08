@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { TabsPage } from '../tabs/tabs';
 import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
 import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
+import { BackgroundMode } from '@ionic-native/background-mode';
 @IonicPage({
   name: 'login'
 })
@@ -23,6 +24,7 @@ export class LoginPage {
   formLogin: FormGroup;
 
   constructor(
+    private background: BackgroundMode,
     private storageProvider: SecureStorageProvider,
     private dadosSensor: DadosSensorProvider,
     private toastCtrl: ToastController,
@@ -53,8 +55,15 @@ export class LoginPage {
            message: 'BEM VINDO',
            duration: 2000,
            position: 'bottom'
-         });
+         });         
          this.storageProvider.cadastro(this.nomeUsuario, senhaCriptografada);
+         this.background.enable();
+                  this.background.setDefaults({
+                    silent: false,
+                    title: 'Estou ativado',
+                    text: 'Oi, irei te notificar quando algo acontecer',
+                    hidden: false
+                  }); 
          toast.present();
          this.dadosSensor.connect().then(connect =>{
            if(connect == "conectado"){

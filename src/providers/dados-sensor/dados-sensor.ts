@@ -10,6 +10,8 @@ export class DadosSensorProvider {
 
   }
 
+  serverURL = "http://projetimeta.duckdns.org:3006";
+
   connect(){
     return new Promise((resolve, reject)=>{
       if(this.socket.connect()){
@@ -33,9 +35,8 @@ export class DadosSensorProvider {
   }
 
   receberDados(data){ 
-    const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
-      this.http.get(serverURL+'/receberionic?data='+data+'&atual=false').subscribe((res)=>{
+      this.http.get(this.serverURL+'/receberionic?data='+data+'&atual=false').subscribe((res)=>{
         resolve(res);
       },
     (err)=>{
@@ -46,9 +47,8 @@ export class DadosSensorProvider {
   }
 
   receberAtual(){
-    const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
-      this.http.get(serverURL+'/receberionic?atual=true').subscribe((res)=>{
+      this.http.get(this.serverURL+'/receberionic?atual=true').subscribe((res)=>{
         resolve(res);
       }, 
     (err)=>{
@@ -86,9 +86,8 @@ export class DadosSensorProvider {
   }
 
   receberStatus(){ 
-    const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
-      this.http.get(serverURL+'/receberstatus').subscribe((res)=>{
+      this.http.get(this.serverURL+'/receberstatus').subscribe((res)=>{
         resolve(res);
       },
     (err)=>{
@@ -99,9 +98,8 @@ export class DadosSensorProvider {
   }
 
   EnviarStatus(status){ 
-    const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
-      this.http.get(serverURL+'/statusalarme?status='+ status).subscribe((res)=>{
+      this.http.get(this.serverURL+'/statusalarme?status='+ status).subscribe((res)=>{
         resolve(res);
       },
     (err)=>{

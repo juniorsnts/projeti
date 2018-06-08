@@ -8,15 +8,16 @@ export class AutenticacaoProvider {
     console.log('Hello AutenticacaoProvider Provider');
   }
 
+  serverURL = "http://projetimeta.duckdns.org:3006";
+
   autenticaLogin(nome, senha){
 
     let data = JSON.stringify({
       nome: nome,
       senha: senha
     });
-    const serverURL = "http://projetimeta.duckdns.org:3006";
     return new Promise((resolve, reject)=>{
-      this.http.post(serverURL+'/autenticaUsuario', data, {headers: {'Content-Type': 'application/json'}})
+      this.http.post(this.serverURL+'/autenticaUsuario', data, {headers: {'Content-Type': 'application/json'}})
       .subscribe(res =>{
         resolve(res);
       }, (err)=>{
@@ -31,9 +32,8 @@ export class AutenticacaoProvider {
       nomeUsuario: nomeUsuario,
       senha: senha
     });    
-    const serverURL = "http://projetimeta.duckdns.org:3006";
    return new Promise((resolve, reject)=>{     
-      this.http.post(serverURL+'/inserirUsuario', data, {headers: {'Content-Type' : 'application/json'}})
+      this.http.post(this.serverURL+'/inserirUsuario', data, {headers: {'Content-Type' : 'application/json'}})
       .subscribe(res => {
         resolve(res);
       }, (err)=>{

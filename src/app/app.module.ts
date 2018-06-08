@@ -17,7 +17,10 @@ import { AutenticacaoProvider } from '../providers/autenticacao/autenticacao';
 import { SecureStorage } from '@ionic-native/secure-storage';
 import { SecureStorageProvider } from '../providers/secure-storage/secure-storage';
 import { UpdateDadosProvider } from '../providers/update-dados/update-dados';
-import { LocalNotifications } from '@ionic-native/local-notifications';
+import { LocalNotifications } from '@ionic-native/local-notifications'; 
+import { NativeAudio } from '@ionic-native/native-audio';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { AudioProvider } from '../providers/audio/audio';
 
 const config: SocketIoConfig = { 
   url: 'http://projetimeta.duckdns.org:3006',
@@ -49,13 +52,16 @@ const config: SocketIoConfig = {
   providers: [
     StatusBar,
     LocalNotifications,
+    NativeAudio,
     SecureStorage,
+    BackgroundMode,    
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DadosSensorProvider,
     AutenticacaoProvider,
     SecureStorageProvider,
-    UpdateDadosProvider
+    UpdateDadosProvider,
+    AudioProvider
   ]
 })
 export class AppModule {}

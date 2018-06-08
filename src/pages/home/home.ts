@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, IonicPage, AlertController } from 'ionic-angular';
+import { NavController, IonicPage, AlertController, Platform } from 'ionic-angular';
 import chartJs from 'chart.js';
 import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -24,6 +24,7 @@ export class HomePage {
 
   
   constructor(
+    private platform: Platform,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
     public dadosSensor: DadosSensorProvider, 
@@ -32,7 +33,6 @@ export class HomePage {
         data: ['', Validators.required]
       });
       this.pesquisaData(); 
-      
      }
 
   ngAfterViewInit(){

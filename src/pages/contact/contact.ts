@@ -5,6 +5,7 @@ import { DadosSensorProvider } from '../../providers/dados-sensor/dados-sensor';
 import { LoginPage } from '../login/login';
 import { UpdateDadosProvider } from '../../providers/update-dados/update-dados';
 import SHA_256 from 'sha256';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 @Component({
   selector: 'page-contact',
@@ -17,6 +18,7 @@ export class ContactPage {
   sensor;
 
   constructor(
+    private background: BackgroundMode,
     private toast: ToastController,
     private updateProvider: UpdateDadosProvider,
     private alertCtrl: AlertController,
@@ -76,6 +78,7 @@ export class ContactPage {
       if(resp == "removido" ){
         this.dadosSensor.disconnect().then(resp=>{
           if(resp == "desconectado"){
+            this.background.disable();
               this.navCtrl.setRoot('login');
               this.app.getRootNav().setRoot('login');
           }else{

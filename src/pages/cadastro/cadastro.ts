@@ -5,6 +5,7 @@ import { AutenticacaoProvider } from '../../providers/autenticacao/autenticacao'
 import SHA_256 from 'sha256';
 import { SecureStorageProvider } from '../../providers/secure-storage/secure-storage';
 import { TabsPage } from '../tabs/tabs';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 @IonicPage({
   name: 'cadastro'
@@ -21,6 +22,7 @@ export class CadastroPage {
   senha = "";
  
   constructor(
+    private background: BackgroundMode,
     private storageProvider: SecureStorageProvider,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
@@ -51,8 +53,16 @@ export class CadastroPage {
           position: 'bottom'
         });
         toast.present();
-
+        
         this.storageProvider.cadastro(this.nomeUsuario, senhaCriptografada);
+
+        this.background.enable();
+        this.background.setDefaults({
+            silent: false,
+            title: 'Estou ativado',
+            text: 'Oi, irei te notificar quando algo acontecer',
+            hidden: false
+          }); 
 
         this.navCtrl.setRoot(TabsPage);
 
