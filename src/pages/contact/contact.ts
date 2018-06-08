@@ -16,6 +16,7 @@ export class ContactPage {
   dadosStorage;
   dadosStorageSenha;
   sensor;
+  estado;
 
   constructor(
     private background: BackgroundMode,
@@ -26,6 +27,8 @@ export class ContactPage {
     private dadosSensor: DadosSensorProvider,
     private secureStorage: SecureStorageProvider,
     public navCtrl: NavController) {
+
+      this.estado = "aberta";
 
       this.dadosSensor.receberStatus().then(resp =>{
           this.sensor = resp;

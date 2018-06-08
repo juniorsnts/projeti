@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MyApp</name>
+    <name>Home Server</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
@@ -17,6 +17,7 @@
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
@@ -87,9 +88,9 @@
     <allow-navigation href="http://192.168.43.8:8100" />
     <allow-navigation href="http://192.168.2.150:8100" />
     <allow-navigation href="http://192.168.0.24:8100" />
-    <engine name="android" spec="7.0.0" />
-    <engine name="browser" spec="5.0.3" />
     <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
     <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
     <plugin name="cordova-plugin-background-mode" spec="^0.7.2" />
+    <engine name="android" spec="6.4.0" />
+    <engine name="browser" spec="5.0.3" />
 </widget>
