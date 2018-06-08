@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, AlertController } from 'ionic-angular';
+import { Platform, AlertController, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SecureStorageProvider } from '../providers/secure-storage/secure-storage';
@@ -20,10 +20,11 @@ export class MyApp {
   rootPage:any;
   user;
 
-  serverURL = "http://projetimeta.duckdns.org:3006";
-  //serverURL = "http://localhost:3398";
+  //serverURL = "http://projetimeta.duckdns.org:3006";
+  serverURL = "http://10.0.0.2:3000";
 
   constructor(
+    toastCtrl: ToastController,
     audio: AudioProvider,
     background: BackgroundMode,
     autenticacaoProvider: AutenticacaoProvider,
@@ -94,12 +95,22 @@ export class MyApp {
 
       secureStorage.recuperar().then(res =>{
         if(res == "noExiste"){
+          let toast = toastCtrl.create({
+            message: 'noExiste',
+            duration: 2000,
+            position: 'bottom'
+          });        
+          toast.present();
           console.log("res ", res);
-          socket.disconnect();
           this.rootPage = 'login';
         } else if(res == "Storagenulo"){
+          let toast = toastCtrl.create({
+            message: 'Storagenulo',
+            duration: 2000,
+            position: 'bottom'
+          });        
+          toast.present();
           console.log("storage nulo", res);
-          socket.disconnect();
           this.rootPage = 'login';
         } else {
           this.user = res;
@@ -127,6 +138,14 @@ export class MyApp {
                   alert.present();
                 }
               });
+            }else{
+              let alert = alertCtrl.create({
+                title: "Erro de comunicação com o servidor",
+                subTitle: "Não foi possivel conectar ao servidor.",
+                buttons: [{text: 'ok'}]
+              });
+              alert.present();
+              this.rootPage = 'login';
             }
           });
         }

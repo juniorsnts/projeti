@@ -8,7 +8,9 @@ export class UpdateDadosProvider {
     console.log('Hello UpdateDadosProvider Provider');
   }
 
-  serverURL = "http://projetimeta.duckdns.org:3006";
+  //serverURL = "http://projetimeta.duckdns.org:3006";
+  serverURL = "http://10.0.0.2:3000";
+
 
   updateUsuario(antigoNome, novoNome, senha){  
     let data = JSON.stringify({

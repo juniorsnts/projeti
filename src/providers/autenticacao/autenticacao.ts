@@ -8,7 +8,8 @@ export class AutenticacaoProvider {
     console.log('Hello AutenticacaoProvider Provider');
   }
 
-  serverURL = "http://projetimeta.duckdns.org:3006";
+  //serverURL = "http://projetimeta.duckdns.org:3006";
+  serverURL = "http://10.0.0.2:3000";
 
   autenticaLogin(nome, senha){
 

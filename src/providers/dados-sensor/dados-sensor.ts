@@ -10,7 +10,8 @@ export class DadosSensorProvider {
 
   }
 
-  serverURL = "http://projetimeta.duckdns.org:3006";
+  //serverURL = "http://projetimeta.duckdns.org:3006";
+  serverURL = "http://10.0.0.2:3000";
 
   connect(){
     return new Promise((resolve, reject)=>{

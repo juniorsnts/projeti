@@ -19,6 +19,7 @@ export class ContactPage {
   estado;
 
   constructor(
+    private toastCtrl: ToastController,
     private background: BackgroundMode,
     private toast: ToastController,
     private updateProvider: UpdateDadosProvider,
@@ -46,21 +47,19 @@ export class ContactPage {
       console.log("Status sensor" + sensor);
       this.dadosSensor.EnviarStatus(this.sensor).then(resp =>{
         if(resp == true){
-          let alert = this.alertCtrl.create({
-            subTitle: 'Sensor ativado Com sucesso.',
-            buttons: [{
-              text: 'ok',
-            }]
-          });  
-          alert.present(); 
+          let toast = this.toastCtrl.create({
+            message: 'Sensor ativado Com sucesso.',
+            duration: 2000,
+            position: 'bottom'
+          });        
+          toast.present();
         }else if(resp == false){
-          let alert = this.alertCtrl.create({
-            subTitle: 'Sensor desativado Com sucesso.',
-            buttons: [{
-              text: 'ok',
-            }]
-          });  
-          alert.present(); 
+          let toast = this.toastCtrl.create({
+            message: 'Sensor desativado Com sucesso.',
+            duration: 2000,
+            position: 'bottom'
+          });        
+          toast.present();
         }else{
           let alert = this.alertCtrl.create({
             subTitle: 'Erro na comunicação com o Sensor.',

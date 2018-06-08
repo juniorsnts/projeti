@@ -23,7 +23,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
 import { AudioProvider } from '../providers/audio/audio';
 
 const config: SocketIoConfig = { 
-  url: 'http://projetimeta.duckdns.org:3006',
+  url: 'http://10.0.0.2:3000',
   options: {}
 }; 
 

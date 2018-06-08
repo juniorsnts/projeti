@@ -18,6 +18,8 @@ export class SecureStorageProvider {
   }
 
   cadastro(usuario, senha){
+    this.secureStorage.create('storageCadastro').then((storage: SecureStorageObject) =>{
+      this.myStorage = storage;
       this.user = JSON.stringify({user:usuario, senha:senha});
       console.log("data: ",JSON.stringify(this.user))
 
@@ -26,13 +28,16 @@ export class SecureStorageProvider {
           console.log("data: ",data)
         },
         error => console.log("erro secureStorage recuperar: ",error)
-      );
+    
+    );
+  });
   }
 
   recuperar(){
 
     return new Promise((resolve, reject) =>{
-      if(this.myStorage != null){
+      this.secureStorage.create('storageCadastro').then((storage: SecureStorageObject) =>{
+        this.myStorage = storage;
         this.myStorage.get('usuario').then(
           data => {
             this.user = JSON.parse(data);
@@ -42,17 +47,15 @@ export class SecureStorageProvider {
             resolve('noExiste');
             console.log("error secureStorage recuperar: ",error);
       });
-      }
-      else {
-        resolve('Storagenulo');
-      }
+      });
     });
 
   }
 
   remover(){
     return new Promise((resolve, reject) =>{
-      if(this.myStorage != null){
+      this.secureStorage.create('storageCadastro').then((storage: SecureStorageObject) =>{
+        this.myStorage = storage;
         this.myStorage.remove('usuario').then(
           data => {
             resolve("removido");
@@ -62,10 +65,7 @@ export class SecureStorageProvider {
             resolve("erro");
           }
         )
-      } else {
-        console.log("erro no remover(storage nulo)");
-        resolve('Storage nulo');
-      }
+      });
     });
   }
 
